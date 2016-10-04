@@ -1,0 +1,138 @@
+{% extends "layout.html" %}
+{% block title %}{{title}} | MU Blog{% endblock %}
+{% block logoText %}MU Blog{% endblock %}
+{% block content %}
+<nav class="row">
+	<div class="text-right">
+		<ol class="breadcrumb">
+		  		<li><a href="/">Home</a></li>
+		  		<li class="active"><a href="#">{{title}}</a></li>
+		</ol>
+	</div>
+</nav>
+
+<article class="row">
+	<section class="post-head">
+		<div class="post-info">
+			<h3 class="title">{{title}}</h3>
+			<h5 title="Added by {{creator}}">
+				<i class="fa fa-user"></i> by {{creator}}
+			</h5>
+			<h5 title="Added {{date.strftime('%A, %B %d, %Y')}}">
+				<i class="fa fa-clock-o"></i> {{date.strftime("%A, %B %d, %Y")}}
+			</h5>
+			{% if last_modified %}
+			<h5 title="Last updated {{last_modified.strftime('%A, %B %d, %Y %H:%M:%S GMT')}}">
+				<i class="fa fa-pencil-square"></i> {{last_modified.strftime('%A, %B %d, %Y %H:%M:%S GMT')}}
+			</h5>
+			{% endif %}
+		</div>
+	</section>
+	<hr>
+	<section class="post-body">
+		<p>{{content | safe}}</p>	
+	</section>
+	<hr>
+	{% if __LoggedIn %}
+	<div class="row action-btn">
+		<center>
+		<div class="col-md-3">
+		{% if __myUserData.username == creator %}
+			<a class="fa fa-1x fa-pencil-square" href="/post/edit/{{postId}}" title="Edit post">Edit post</a>
+		{% endif %}
+		</div>
+		
+
+		<div class="col-md-3">
+			<a class="fa fa-1x fa-thumbs-up" href="/post/like/{{postId}}" title="Like post">
+				<span title="{{likes}} likes">({{likes}}) Like</span>
+			</a>
+		</div>
+
+		<div class="col-md-3">
+			<a class="fa fa-1x fa-thumbs-down" href="/post/dislike/{{postId}}" title="Dislike post">
+				<span title="{{dislikes}} dislikes">({{dislikes}}) Dislike </span>
+			</a>
+		</div>
+
+		<div class="col-md-3">
+		{% if __myUserData.username == creator %}
+			<a class="fa fa-1x fa-trash" href="/post/delete/{{postId}}" title="Delete post">
+				Trash post
+			</a> 
+		{% endif %}
+		</div>
+		</center>
+	</div>
+	{% else %}
+	<div class="row action-btn">
+	<center>
+		<div class="col-md-3"></div>
+		<div class="col-md-3">
+			<a class="fa fa-1x fa-thumbs-up" href="/post/like/{{postId}}" title="Like post">
+				<span title="{{likes}} likes">({{likes}}) Like</span>
+			</a>
+		</div>
+
+		<div class="col-md-3">
+			<a class="fa fa-1x fa-thumbs-down" href="/post/dislike/{{postId}}" title="Dislike post">
+				<span title="{{dislikes}} dislikes">({{dislikes}}) Dislike </span>
+			</a>
+		</div>
+	</center>
+	</div>
+	{% endif %}
+	<section class="col-md-6 comment-form">
+	<h3 class="page-header">Share your thoughts!</h3>
+		<form method="post">
+			<div class="form-group">
+		      <div class="col-md-12">
+		        <textarea class="form-control" placeholder="Your thoughts..." rows="8" name="content" maxlength="180">{{comment}}</textarea>
+		      </div>
+		    </div>
+		    <div class="form-group">
+		    	<div class="col-md-12">
+		    	*Comment cannot be more than 180 characters in length
+		    	</div>
+		    </div>
+			<div class="form-group">
+		      <div class="offset-sm-8 col-sm-10">
+		        <button type="submit" class="btn btn-primary">Submit</button>
+		      </div>
+		    </div>
+	    </form>
+	</section>
+	<section class="col-md-6 comments">
+	   <h3 class="page-header">Comments</h3>
+	   {% if comments %}
+	   <div class="comments-body">
+	   {% for com in comments %}
+	   		<div class="col-md-12">
+	   			<div class="single-comment">
+	   				<div class="col-md-12 row">
+			   			<div class="col-md-6 col-xs-6 author">{{com.author}}</div>
+			   			<div class="col-md-6 col-xs-6 date text-right">{{com.created.strftime("%A, %b %d, %Y")}}</div>
+			   		</div>
+			   		<div class="col-md-12">
+	   					<div class="comment-content">{{com.comment.replace('\n',"<br>")|safe}}
+	   					</div>
+	   					{% if __LoggedIn and __myUserData.username == com.author %}
+	   						<a class="fa fa-1x fa-pencil-square" href="/comment/edit/{{com.key().id()}}" title="Edit comment">
+							Edit
+							</a>
+							<a class="fa fa-1x fa-trash" href="/comment/delete/{{com.key().id()}}" title="Delete comment">
+							Trash
+							</a>
+						{% endif %}
+						<hr>
+	   				</div>
+	   			</div>
+	   		</div>
+	   {% endfor %}
+	   </div>
+	   {% else %}
+	   No Comments yet!
+	   {% endif %}
+	</section>
+</article>
+{% endblock %}

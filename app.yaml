@@ -1,0 +1,42 @@
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /static
+  static_dir: static
+
+- url: /post/.*
+  script: handlers.posts.app
+
+- url: /login
+  script: handlers.login.app
+
+- url: /signup
+  script: handlers.signup.app
+
+- url: /signup/admin
+  script: handlers.signup.app
+
+- url: /signup/.*
+  script: handlers.signup.app
+
+- url: /user/logout
+  script: handlers.user.app
+
+- url: /user/dashboard
+  script: handlers.user.app
+
+- url: /user/.*
+  script: handlers.user.app
+
+- url: /comment/.*
+  script: handlers.comment.app
+ 
+
+- url: /.*
+  script: handlers.main.app
+
+libraries:
+- name: jinja2
+  version: latest

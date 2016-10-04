@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block title %}Update Comment | {{content|truncate(10)|safe}}{% endblock %}
+{% block logoText %}Update Comment{% endblock %}
+{% block content %}
+<div class="col-md-2"></div>
+<div class="col-md-8">
+	{% if Err|length > 0 %}
+		{% for E in Err %}
+			<div class="alert alert-danger fade in">
+  				<a href="#" class="close" data-dismiss="alert" aria-label="close">
+  				&times;</a>
+  				{{E}}
+  			</div>
+		{% endfor %}
+	{% endif %}
+	<form method="post">
+	   	<div class="form-group row">
+	      <label for="email" class="col-md-2 col-form-label">Comment</label>
+	      <div class="col-md-10">
+	        <textarea class="form-control" placeholder="Content" rows="10" name="content">{{content}}</textarea>
+	      </div>
+	    </div>
+
+		<div class="form-group row">
+	      <div class="offset-sm-8 col-sm-10">
+	        <button type="submit" class="btn btn-primary">Update Comment</button>
+	      </div>
+	    </div>
+	</form>
+</div>
+<div class="col-md-2"></div>
+{% endblock %}

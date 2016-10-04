@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+{% block title %}User SignUp{% endblock %}
+{% block logoText %}User SignUp{% endblock %}
+{% block content %}
+<div class="col-md-3"></div>
+<div class="col-md-6">
+	{% if level == 1 %}
+		<div class="alert alert-warning fade in">Admin Signup!</div>
+	{% else %}
+		<div class="alert alert-warning fade in">User Signup!</div>
+	{% endif %}
+	{% if Err|length > 0 %}
+		{% for E in Err %}
+			<div class="alert alert-danger fade in">
+  				<a href="#" class="close" data-dismiss="alert" aria-label="close">
+  				&times;</a>
+  				{{E}}
+  			</div>
+		{% endfor %}
+	{% endif %}
+	<form method="post">
+		<div class="form-group row">
+	      <label for="full_name" class="col-md-4 col-form-label">Full name</label>
+	      <div class="col-md-8">
+	        <input type="text" class="form-control" placeholder="Full name" name="full_name" value="{{full_name}}">
+	      </div>
+	    </div>
+
+		<div class="form-group row">
+	      <label for="username" class="col-md-4 col-form-label">Username</label>
+	      <div class="col-md-8">
+	        <input type="text" class="form-control" placeholder="Username" name="username" value="{{username}}">
+	      </div>
+	    </div>
+
+	   	<div class="form-group row">
+	      <label for="password" class="col-md-4 col-form-label">Password</label>
+	      <div class="col-md-8">
+	        <input type="password" class="form-control" placeholder="Password" name="password" value="">
+	      </div>
+	    </div>
+
+	    <div class="form-group row">
+	      <label for="verify" class="col-md-4 col-form-label">Verify Password</label>
+	      <div class="col-md-8">
+	        <input type="password" class="form-control" placeholder="Verify Password" name="verify" value="">
+	      </div>
+	    </div>
+
+	   	<div class="form-group row">
+	      <label for="email" class="col-md-4 col-form-label">Email Address</label>
+	      <div class="col-md-8">
+	        <input type="email" class="form-control" placeholder="Email" name="email" value="{{email}}">
+	      </div>
+	    </div>
+
+	    <input type="hidden" name="level" value="{{level}}">
+
+		<div class="form-group row">
+	      <div class="offset-sm-8 col-sm-10">
+	        <button type="submit" class="btn btn-primary">Join</button>
+	      </div>
+	    </div>
+	</form>
+	Have an account? <a href="/login" class="btn btn-warning">Login here</a>
+</div>
+<div class="col-md-3"></div>
+{% endblock %}

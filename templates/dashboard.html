@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block title %}User Dashboard{% endblock %}
+{% block logoText %}User Dashboard{% endblock %}
+{% block content %}
+<div class="col-md-5" style="border-right: 2px solid #F2F1F0;">
+	<img src="http://placehold.it/250x270" class="img-responsive thumbnail" alt="Your Profile Picture">
+	<h2>Welcome, {{user}}</h2>
+</div>
+<div class="col-md-7">
+	<p class="lead">Full name: {{data.full_name}}</p>
+	<p class="lead">Email Address: {{data.email}}</p>
+	<p class="lead">Reg date: {{data.reg_date.strftime("%A, %B %d, %Y")}}</p>
+	<p class="lead">Rank: {%if data.level == 1 %}Administrator{% else %}User {%endif %}</p>
+</div>
+{% endblock %}

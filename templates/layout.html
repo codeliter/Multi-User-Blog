@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+	<title>{% block title %}{% endblock %}</title>
+	<!-- Bootstrap 3 -->
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap-theme.min.css">
+   	<link rel="stylesheet" href="https://use.fontawesome.com/0466e77569.css">
+    
+    <style type="text/css" media="screen">
+    	 body {
+            padding-top: 80px;
+        }
+
+
+        .comments-body {
+        	max-height: 300px;
+        	width: 100%;
+        	overflow-x: auto;
+        }
+
+        .single-comment{
+        	display: block;
+        	margin-bottom: 10px;
+        }
+
+        .comment-content {
+        	padding: 5px;
+        	display: block;
+        	border: 1 px solid #999999;
+        	background-color: #00303D;
+        	color:  #fff;
+        	margin-bottom: 10px;
+        	width: 100%;
+        }
+
+
+        .date {
+        	margin-right: 0;
+        }
+
+        .author {
+        	margin-left: 0;
+		    color: #999999;
+		    text-transform: uppercase;
+		    font-weight: 300;
+		    font-size: 12px;
+		    letter-spacing: 0.08em;
+        }
+
+        .read-more {
+        	float: right;
+        }
+
+        .btn-read-more {
+        	border: 1px solid #275D8C;
+        }
+
+        .btn-read-more:hover {
+        	color: #ffffff;
+        	background-color: #275D8C;
+        }
+        ol.breadcrumb {
+    		padding: 20px 10px;
+   	 		margin-bottom: 20px;
+   	 	}
+
+   	 	ol.breadcrumb > li.active > a{
+    		color: #858585;
+   	 	}
+
+
+		h3.title {
+			color: #275D8C;
+		}
+    </style>
+</head>
+	<body>
+	    <!-- Main Page Content -->
+	    <div class="container">
+	      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	        <div class="container">
+	          <div class="navbar-header">
+	          	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+			        <span class="sr-only">Toggle navigation</span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			    	<span class="icon-bar"></span>
+			    </button>
+	            <a class="navbar-brand" href="#">{% block logoText %}{% endblock %}</a>
+	          </div>
+
+		      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			      <ul class="nav navbar-nav navbar-right">
+			      <li><a href="/" title="Blog Homepage">Blog Home</a></li>
+			      	{% if __LoggedIn %}
+			        <li class="dropdown"> 
+			        	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+			        	{{__myUserData.full_name}}<span class="caret"></span></a> 
+				        <ul class="dropdown-menu"> 
+				        	{% if __myUserData.level == 1 %}
+				        	<li><a href="/post/add" title="add post">Add a post</a></li>
+				        	{% endif %}
+				        	<li><a href="/user/dashboard" title="dashboard">Dashboard</a></li>
+				        	<li class="divider"></li>
+			        		<li><a href="/user/logout" title="logout">Logout</a></li>
+				        </ul> 
+				     </li>
+				     {% else %}
+				     <li class="dropdown"> 
+			        	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+			        	Login<span class="caret"></span></a> 
+				        <ul class="dropdown-menu" style="padding: 10px"> 
+				        	<li>
+					        	<form action="/login" method="post" class="navbar-form navbar-right">
+							        <div class="form-group">
+							        	<label for="username" class="form-label">Username</label>
+							        	<input type="text" class="form-control" placeholder="Username" name="username">
+							        </div>
+							        <div class="form-group">
+							        	<label for="password" class="form-label">Password</label>
+							        	<input type="password" class="form-control" placeholder="Password" name="password">
+							        </div>
+							        <div class="form-group">
+							    		<button type="submit" class="btn btn-default">Login</button>
+							    	</div>
+							    </form>
+							</li>
+						    <li>Have no account?</li> 
+							<li>
+								<a href="/signup" class="btn btn-md btn-warning">Register here(as user)</a></li>
+							<li>
+								<a href="/signup/admin" class="btn btn-md btn-danger">Register here(as admin)</a>
+								</p>
+							</li>
+				        </ul> 
+				     </li>
+			        {% endif %}
+			      </ul>
+			    </div><!-- /.navbar-collapse -->
+		   	</div>
+	      </div>
+	    </div>
+		<section class="content">
+		    <div class="container">
+		    	<div class="col-md-3"></div>
+		    		<div class="col-md-6">
+			    		{% if __retMsg %}
+						<div class="alert alert-danger fade in">
+					  		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					  		{{__retMsg.replace('-',' ')}}
+					  	</div>
+						{% endif %}
+						{% if __sucMsg %}
+						<div class="alert alert-success fade in">
+					  		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					  		{{__sucMsg.replace('-',' ')}}
+					  	</div>
+						{% endif %}
+					</div>
+		    		<div class="col-md-3"></div>
+		    	<div class="col-md-12">
+			      	{% block content %}
+
+					{% endblock %}
+				</div>
+		    </div>
+		</section>
+		<script src="/static/js/jquery.min.js"></script>
+    	<script src="/static/js/bootstrap.min.js"></script>
+    	<script src=></script>
+	</body>
+</html>

@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block title %}MU Blog{% endblock %}
+{% block logoText %}MU Blog{% endblock %}
+{% block content %}
+	{% if posts %}
+	<section>
+	{% for post in posts %}
+	<div class="row">
+        <div class="col-md-3">
+            <div class="image" style="height: 195px;">
+                <a href="post/{{post.key().id()}}">
+                  <img src="http://placehold.it/300x195" class="img-responsive" style="opacity: 1;">
+                </a>
+            </div>
+       	</div>
+       	<div class="col-md-9">
+            <h2><a href="post/{{post.key().id()}}">{{post.subject}}</a></h2>
+            <div class="clearfix">
+                <p class="author">By <a href="#">
+
+                {% if __LoggedIn and __myUserData.username and post.creator == __myUserData.username %} 
+                	You 
+                {% else %} 
+                	{{post.creator}} 
+                {% endif %}
+                </a></p>
+                <p class="date"><i class="fa fa-calendar-o"></i>
+                	{{post.created.strftime("%B %d, %Y")}}
+                </p>
+            </div>
+            <p class="intro">{{post.content|truncate(200)}}</p>
+            <p class="read-more"><a class="btn btn-read-more" href="post/{{post.key().id()}}">Continue reading</a></p>
+        </div>
+    </div>
+	<hr>
+	{% endfor %}
+	{% else %}
+	<center><h1> No Blog Post yet </h1></center>
+	</section>
+	{% endif %}
+{% endblock %}
